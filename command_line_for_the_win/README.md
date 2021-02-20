@@ -1,13 +1,3 @@
-
--   [](https://students-support.hbtn.io/hc)
-    
-      
-    
-
-----------
-
-----------
-
 # Command line for the win
 
 Foundations - More!
