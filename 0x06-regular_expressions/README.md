@@ -16,7 +16,7 @@ Read about regexp:
 
 -   [http://www.regular-expressions.info/](https://intranet.hbtn.io/rltoken/UiNlZh3kfbxisotXH-gI0A "http://www.regular-expressions.info/")
 -   [http://www.w3schools.com/jsref/jsref_obj_regexp.asp](https://intranet.hbtn.io/rltoken/tcX5DBSbWv1emQQQIzuchw "http://www.w3schools.com/jsref/jsref_obj_regexp.asp")  Play with regexp (or compose them):
-    
+
 -   Ruby:  [http://rubular.com/](https://intranet.hbtn.io/rltoken/M4whgZsxtYEk50WGcYbPRA "http://rubular.com/")
-    
+
 -   PHP/Javascript/Python:  [https://regex101.com/](https://intranet.hbtn.io/rltoken/InqFxs9vWK2lTXxeCVHM8Q "https://regex101.com/")
