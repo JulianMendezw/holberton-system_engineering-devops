@@ -3,7 +3,7 @@
 -   Foundations - System engineering & DevOps ― Web stack
 -   By Sylvain Kalache, co-founder at Holberton School
 
-![](https://i.imgur.com/5EjkQTt.png)
+![](https://i.imgur.com/KQR6JDw.jpg)
 
 ## Concepts
 
