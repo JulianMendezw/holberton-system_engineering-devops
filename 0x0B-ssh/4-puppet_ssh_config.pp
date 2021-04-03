@@ -1,11 +1,11 @@
 # Adding Lines to /etc/ssh/ssh_config
-file_line { 'ssh_config adding IdentityFile':
+file_line { 'Turn off passwd auth':
   ensure => 'present',
-  line   => 'IdentityFile ~/.ssh/holberton',
   path   => '/etc/ssh/ssh_config',
+  line   => '    PasswordAuthentication no'
 }
-file_line { 'ssh_config adding PasswordAuthentication':
+file_line { 'Declare identity file':
   ensure => 'present',
-  line   => 'PasswordAuthentication no',
   path   => '/etc/ssh/ssh_config',
+  line   => '    IdentityFile ~/.ssh/holberton'
 }
