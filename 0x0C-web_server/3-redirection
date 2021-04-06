@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Configuration on server side NGINX
-sudo apt-get update -y
-sudo apt-get install nginx -y
+apt-get -y update
+apt-get -y install nginx
 echo "Holberton School" > /var/www/html/index.nginx-debian.html
 sed -i "/server_name _;/ a\\\trewrite ^/redirect_me http://www.holbertonschool.com permanent;" /etc/nginx/sites-available/default
 service nginx start
