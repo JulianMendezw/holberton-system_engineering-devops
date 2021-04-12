@@ -8,17 +8,17 @@ exec { 'exec_1':
 }
 
 exec { 'exec_2':
-  command => 'echo "Holberton School" | sudo tee /var/www/html/index.nginx-debian.html',
+  command => 'echo "Holberton School" > /var/www/html/index.nginx-debian.html',
 }
 
-exec { 'exec_3':
-  command     => 'sudo sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me $GG;/" /etc/nginx/sites-enabled/default',
+-> file_line { 'add header' :
+  ensure => present,
+  path   => '/etc/nginx/sites-available/default',
+  line   => "\tadd_header X-Served-By ${hostname};",
+  after  => 'server_name _;',
 }
 
-exec { 'exec_4':
-  command     => 'sudo sed -i "/location \/ {/ a\\\t\tadd_header X-Served-By \$hostname;" /etc/nginx/sites-available/default',
 }
-
-exec { 'exec_5':
-  command => 'sudo service nginx start',
+exec { 'exec_7':
+  command => 'service nginx restart',
 }
