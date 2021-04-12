@@ -10,7 +10,7 @@ exec { 'exec_0':
 -> file_line { 'add header':
   ensure => present,
   path   => '/etc/nginx/sites-available/default',
-  line   => "\tadd_header X-Served-By ${hostname};",
+  line   => 'add_header X-Served-By $hostname;',
   after  => 'server_name _;',
 }
 
