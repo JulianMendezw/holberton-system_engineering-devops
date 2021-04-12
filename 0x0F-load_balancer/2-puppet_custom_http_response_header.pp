@@ -3,8 +3,8 @@ exec { 'exec_0':
   command => 'sudo sudo apt-get update -y',
 }
 
--> exec { 'exec_1':
-  command => 'sudo apt-get install nginx -y',
+-> package { 'nginx':
+  ensure => installed,
 }
 
 -> file_line { 'add header':
