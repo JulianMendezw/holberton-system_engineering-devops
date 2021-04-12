@@ -3,11 +3,11 @@ exec { 'exec_0':
   command => 'sudo sudo apt-get update -y',
 }
 
-exec { 'exec_1':
+-> exec { 'exec_1':
   command => 'sudo apt-get install nginx -y',
 }
 
-file_line { 'add header' :
+-> file_line { 'add header':
   ensure => present,
   path   => '/etc/nginx/sites-available/default',
   line   => "\tadd_header X-Served-By ${hostname};",
@@ -15,6 +15,6 @@ file_line { 'add header' :
 }
 
 }
-exec { 'exec_7':
+-> exec { 'exec_7':
   command => 'service nginx restart',
 }
