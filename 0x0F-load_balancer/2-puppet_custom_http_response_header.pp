@@ -15,6 +15,6 @@ exec { 'exec_0':
 }
 
 }
--> exec { 'exec_7':
-  command => 'service nginx restart',
+-> service { 'nginx':
+  ensure => running,
 }
