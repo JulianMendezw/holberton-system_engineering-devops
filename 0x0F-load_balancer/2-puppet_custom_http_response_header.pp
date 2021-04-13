@@ -1,20 +1,26 @@
-# Script that configures NGINX
-exec { 'exec_0':
-  command => 'sudo sudo apt-get update -y',
-}
+# Install Nginx web server
 
--> package { 'nginx':
-  ensure => installed,
+exec { 'update server':
+  command  => 'apt-get update',
+  user     => 'root',
+  provider => 'shell',
 }
-
--> file_line { 'add header':
+->
+package { 'nginx':
+  ensure   => installed,
+  name     => 'nginx',
+  provider => 'apt'
+}
+->
+file_line { 'custom HTTP header':
   ensure => present,
   path   => '/etc/nginx/sites-available/default',
-  line   => 'add_header X-Served-By $hostname;',
-  after  => 'server_name _;',
+  after  => 'listen 80 default_server;',
+  line   => 'add_header X-Served-By $hostname;'
 }
-
-}
--> service { 'nginx':
-  ensure => running,
+->
+service { 'nginx':
+  ensure  => running,
+  enable  => true,
+  require => Package['nginx']
 }
