@@ -2,6 +2,7 @@
 
 exec { 'update server':
   command  => 'apt-get update',
+  provider => 'shell',
 }
 ->
 package { 'nginx':
