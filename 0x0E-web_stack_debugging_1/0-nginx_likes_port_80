@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# This script fix the problem with default file and bad port number
+sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
+service nginx restart
