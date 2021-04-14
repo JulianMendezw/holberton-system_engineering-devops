@@ -1,4 +1,5 @@
-#!/usr/bin/env bash# This script fix the problem with default file and bad port number
+#!/usr/bin/env bash
+# This script fix the problem with default file and bad port number
 ln -s -f /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 service nginx restart
 rm /run/nginx.pid
