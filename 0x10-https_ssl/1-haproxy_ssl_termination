@@ -34,22 +34,15 @@ defaults
         errorfile 503 /etc/haproxy/errors/503.http
         errorfile 504 /etc/haproxy/errors/504.http
 
-frontend http_front
+frontend www.julianmendez.tech
    bind *:80
+   bind *:443 ssl crt /etc/haproxy/certificates/ssl.pem
+   reqadd X-Forwarded-Prot
    stats uri /haproxy?stats
    default_backend http_back
 
 backend http_back
    balance roundrobin
+   redirect scheme https if !{ ssl_fc }
    server 2358-web-01 35.190.147.175:80 check
    server 2358-web-02 54.204.101.31:80 check
-
-backend foo
-    redirect scheme https if !{ ssl_fc }
-    balance roundrobin
-    server 2358-web-01 35.190.147.175:80 check
-    server 2358-web-02 54.204.101.31:80 check
-
-frontend www.julianmendez.tech
-    bind *:443 ssl crt /etc/haproxy/certificates/ssl.pem
-    reqadd X-Forwarded-Prot
