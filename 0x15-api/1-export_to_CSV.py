@@ -17,8 +17,6 @@ if __name__ == "__main__":
 
     resp = requests.get("{}{}".format(url_tasks, user_id)).json()
 
-    title_list = []
-
     with open('{}.csv'.format(user_id), 'w', newline='') as csvfile:
         my_writer = csv.writer(
             csvfile,
