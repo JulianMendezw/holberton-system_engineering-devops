@@ -20,7 +20,7 @@ if __name__ == "__main__":
 
     title_list = []
 
-    with open('2.csv', 'w', newline='') as csvfile:
+    with open('USER_ID.csv', 'w', newline='') as csvfile:
         my_writer = csv
         .writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
 
