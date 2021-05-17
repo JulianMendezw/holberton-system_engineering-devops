@@ -1,21 +1,37 @@
+# Postmortem
+![](https://miro.medium.com/max/3936/0*xyaPGUFSl37FtuuX.jpeg)
 
-# 0x19. Postmortem
+On 9–04–2021 PDT at midnight, our company released a new project where there were issues. We were tasked with finding the cause of the problem by the end of 14–04–2021. This is the postmortem of that bug.
 
--   Foundations - System engineering & DevOps ― On call
--   By Sylvain Kalache, co-founder at Holberton School
+# The Service Interruption
 
-## Background Context
+A WordPress website, running on a LAMP stack, was returning a 500 status code to all get requests. The website itself is a simple HTML page, but a problem with MySQL or PHP can still disable the website.
 
-Any software system will eventually fail, and that failure can come stem from a wide range of possible factors: bugs, traffic spikes, security issues, hardware failures, natural disasters, human error… Failing is normal and failing is actually a great opportunity to learn and improve. Any great Software Engineer must learn from his/her mistakes to make sure that they won’t happen again. Failing is fine, but failing twice because of the same issue is not.
+# Timeline
 
-A postmortem is a tool widely used in the tech industry. After any outage, the team(s) in charge of the system will write a summary that has 2 main goals:
+-   9–11–2021, 12:00 am PDT, Project released.
+-   9–12–2021, 12:00 pm, Begin working on a project with Madison Burke, with help from Mitali Sengupta and Victor Nguyen. Notice missing error logs.
+-   9–12–2021, 12:30 pm, Error logging has been enabled and ‘no such file’ error is seen.
+-   9–12–2021, 12:40 pm, typo is manually fixed and requests return 200 status code.
+-   9–12–2021, 1:53 pm, Rough draft of Puppet code written.
+-   9–12–2021, 5:56 pm PDT, Puppet code finalized.
 
--   To provide the rest of the company’s employees easy access to information detailing the cause of the outage. Often outages can have a huge impact on a company, so managers and executives have to understand what happened and how it will impact their work.
--   And to ensure that the root cause(s) of the outage has been discovered and that measures are taken to make sure it will be fixed.
+# The Bug
 
-## Resources
+The first clue came from  /var/log. Apache and MySQL both had error logs, but PHP’s was conspicuously missing. After enabling PHP’s various error configurations in /etc/php5/apache2/php.ini, I restarted the server and used the command  `curl localhost:80`  , and the response stated an error on line 137 of the file /var/www/html/wp-settings.php. Going to the file, the line reads  `require_once( ABSPATH . WPINC . ‘/class-wp-locale.phpp’ );`  , a clear typo.
 
-**Read or watch**:
+# The Solution
 
--   [Incident Report, also referred to as a Postmortem](https://intranet.hbtn.io/rltoken/QTu2_ZVW8f-2weQGOQvc9w "Incident Report, also referred to as a Postmortem")
--   [How to run a Postmortem](https://intranet.hbtn.io/rltoken/uost5-f-wlp7CV2a6OLVKQ "How to run a Postmortem")
+To fix this server, the file var/www/html/wp-settings.php can be changed directly, but if the issue exists on multiple servers a script will be handy. Here’s a Puppet script that accomplishes the task.
+
+# fixes typo in config file  
+exec { ‘replaces line in config file’: command => ‘sed -i “s/.phpp/.php/g” /var/www/html/wp-settings.php’,  
+path => ‘/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin’,  
+onlyif => ‘test -f /var/www/html/wp-settings.php’  
+}
+
+After implementing the solution, a get request returns a normal HTML page with a status code of 200.
+
+# Prevention
+
+This is a very glaring error to find in production, so I assume this would likely be caused by someone manually changing one thing in a config file and accidentally changing something else. It’s also possible that a seemingly unrelated part of the program hosted on the server changes this config file as an unforeseen side effect. I would check other servers for the same bug, and implement more rigorous testing.
