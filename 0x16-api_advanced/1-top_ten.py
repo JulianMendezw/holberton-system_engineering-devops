@@ -26,5 +26,6 @@ def top_ten(subreddit):
         for children in childrenList[:10]:
             childrenObj = children.get('data')
             print(childrenObj.get('title'))
+
     except(BaseException):
         print(None)
