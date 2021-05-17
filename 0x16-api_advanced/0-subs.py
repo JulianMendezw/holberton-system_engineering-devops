@@ -4,6 +4,9 @@ A function that queries the Reddit API and returns the number of subscribers
 """
 
 
+from sys import path_importer_cache
+
+
 def number_of_subscribers(subreddit):
     """ Return the number of suscribers """
     from requests import get
@@ -15,6 +18,7 @@ def number_of_subscribers(subreddit):
 
     if response:
         data = response.get('data')
+        print(data[5])
 
         if data:
             return data.get('subscribers')
